@@ -1,0 +1,13 @@
+#Parte 1: regresión
+#variables predictoras a utilizar: si llueve o no llueve y velocidad del viento
+#variable a predecir: número de bicicletas usadas
+f <- na.omit(clima_ecobici)
+g <- mutate(f, lluvia = ifelse(f$prcp>0,"Llueve","No llueve"))
+modelo_regresion <- lm(n ~ wspd + lluvia, data = g)
+coef(modelo_regresion)
+mean(residuals(modelo_regresion)**2)
+ggplot(data = g, aes(x = wspd, y = n, color = lluvia)) +
+  geom_point() +
+  geom_abline(intercept = 6601, slope = 35.6) +
+  geom_abline(intercept = 6601+1256, slope = 35.6) 
+#Se puede ver que a medida que aumenta la velocidad del viento, lentamente aumenta el uso de las bicis. El tema de la lluvia no parecería influir demasiado en el uso de las bicis, ya que hay muchos días que llueve y se usan muchas bicis igual, y días que no llueve y se usan pocas bicis.
